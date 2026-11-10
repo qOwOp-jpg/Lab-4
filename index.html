@@ -1,14 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>HTML Test Placeholder</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plant Care - Interactive Logic</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f6ef;
+      text-align: center;
+      padding: 60px 20px;
+      color: #27392c;
+    }
+    .card {
+      max-width: 450px;
+      margin: auto;
+      background: white;
+      padding: 35px 25px;
+      border-radius: 18px;
+      box-shadow: 0 5px 20px #00000015;
+    }
+    #plant { font-size: 100px; margin: 20px 0; }
+    #message { min-height: 50px; }
+    button {
+      padding: 12px 18px;
+      margin: 6px;
+      border: none;
+      border-radius: 8px;
+      background: #3c8654;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover { background: #2c6c41; }
+    .reset { background: #777; }
+    .reset:hover { background: #555; }
+  </style>
 </head>
 <body>
-	<main>
-		<h1>Test Placeholder</h1>
-		<div id="test-object" data-testid="placeholder">Placeholder content</div>
-	</main>
+  <div class="card">
+    <h1>Grow a Plant</h1>
+    <p>Give your plant water and sunlight to help it grow!</p>
+    <div id="plant" aria-label="Plant">🌱</div>
+    <h2 id="status">Small Seedling</h2>
+    <p id="message">Your plant needs some water and sunlight.</p>
+    <p>Water: <span id="waterCount">0</span>/2 | Sunlight: <span id="sunCount">0</span>/2</p>
+    <button id="waterButton">💧 Water</button>
+    <button id="sunButton">☀️ Sunlight</button>
+    <button class="reset" id="resetButton">Reset</button>
+  </div>
+
+  <script>
+    let water = 0;
+    let sunlight = 0;
+
+    function updatePlant() {
+      document.getElementById('waterCount').textContent = water;
+      document.getElementById('sunCount').textContent = sunlight;
+
+      let emoji, status, message;
+      if (water >= 2 && sunlight >= 2) {
+        emoji = '🌻';
+        status = 'Blooming!';
+        message = 'Great job! Your plant has enough water and sunlight.';
+      } else if (water >= 2) {
+        emoji = '🌿';
+        status = 'Needs Sunlight';
+        message = 'Your plant has enough water. Give it more sunlight!';
+      } else if (sunlight >= 2) {
+        emoji = '🥀';
+        status = 'Needs Water';
+        message = 'Your plant has enough sunlight. Give it more water!';
+      } else {
+        emoji = '🌱';
+        status = 'Small Seedling';
+        message = 'Your plant needs some water and sunlight.';
+      }
+
+      document.getElementById('plant').textContent = emoji;
+      document.getElementById('status').textContent = status;
+      document.getElementById('message').textContent = message;
+    }
+
+    document.getElementById('waterButton').addEventListener('click', function () {
+      water = Math.min(water + 1, 2);
+      updatePlant();
+    });
+
+    document.getElementById('sunButton').addEventListener('click', function () {
+      sunlight = Math.min(sunlight + 1, 2);
+      updatePlant();
+    });
+
+    document.getElementById('resetButton').addEventListener('click', function () {
+      water = 0;
+      sunlight = 0;
+      updatePlant();
+    });
+  </script>
 </body>
 </html>
